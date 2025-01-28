@@ -1,0 +1,389 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
+}
+
+canvas {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.text-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+  z-index: 1;
+  width: 90%;
+  max-width: 800px;
+}
+
+h1 {
+  font-size: min(6em, 15vw);
+  margin-bottom: 0.5em;
+  background: linear-gradient(45deg, #ffd700, #ff4500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  font-size: 2.5em;
+  margin-top: 0;
+  font-family: 'Arial', sans-serif;
+  color: #ff4500;
+}
+
+.lucky-money-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: min(40px, 6vw);
+    border-radius: 20px;
+    z-index: 2;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    border: 3px solid #ff0000;
+    width: 90%;
+    max-width: 500px;
+    transition: all 0.3s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+.lucky-money-form.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: min(1.2em, 5vw);
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: min(1.1em, 4.5vw);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+    outline: none;
+}
+
+button#generateEnvelopes {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, #ff4d4d, #ff0000);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: min(1.3em, 5vw);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+button#generateEnvelopes:hover {
+    background: linear-gradient(45deg, #ff0000, #ff6b6b);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+}
+
+.envelopes-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: min(30px, 4vw);
+    justify-items: center;
+    align-items: center;
+    width: 90%;
+    max-width: 800px;
+    z-index: 2;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.envelopes-container.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.envelope {
+    width: min(120px, 25vw);
+    height: min(180px, 37.5vw);
+    background-image: url('images/envelope.png');
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.envelope:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3);
+}
+
+.envelope:nth-child(1) { animation-delay: 0.1s; }
+.envelope:nth-child(2) { animation-delay: 0.2s; }
+.envelope:nth-child(3) { animation-delay: 0.3s; }
+.envelope:nth-child(4) { animation-delay: 0.4s; }
+.envelope:nth-child(5) { animation-delay: 0.5s; }
+.envelope:nth-child(6) { animation-delay: 0.6s; }
+.envelope:nth-child(7) { animation-delay: 0.7s; }
+.envelope:nth-child(8) { animation-delay: 0.8s; }
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 3;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: min(40px, 6vw);
+    border-radius: 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: min(30px, 8vw);
+    cursor: pointer;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.close:hover {
+    color: #ff0000;
+    transform: scale(1.1);
+}
+
+.money-amount {
+    margin-top: 30px;
+}
+
+.money-amount img {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.money-amount p {
+    font-size: min(1.5em, 6vw);
+    color: #ff0000;
+    font-weight: bold;
+    margin: 0;
+}
+
+.opened {
+    opacity: 0.5;
+    pointer-events: none;
+    transform: scale(0.95);
+}
+
+/* Thêm style cho nút lì xì */
+.lucky-button {
+    display: inline-block;
+    padding: min(25px, 5vw) min(50px, 8vw);
+    background: linear-gradient(45deg, #ff4d4d, #ff0000);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: min(1.8em, 6vw);
+    margin-top: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 25px rgba(255, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+.lucky-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(255, 0, 0, 0.6);
+    background: linear-gradient(45deg, #ff0000, #ff6b6b);
+}
+
+.back-button {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: min(1.1em, 4.5vw);
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    color: #ff0000;
+    transform: scale(1.05);
+}
+
+/* Style cho trang lì xì */
+.lixi-page .lucky-money-form {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #ff0000;
+}
+
+.lixi-page h2 {
+    color: #ff0000;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: min(2.5em, 8vw);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Media Queries cho mobile */
+@media (max-width: 768px) {
+    .lucky-money-form {
+        padding: 20px;
+    }
+
+    .envelopes-container {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 15px;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lucky-money-form {
+        top: 0;
+        transform: translate(-50%, 0);
+        border-radius: 0 0 20px 20px;
+    }
+
+    .envelopes-container {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 10px;
+    }
+}
+
+select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: min(1.1em, 4.5vw);
+    background-color: white;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1em center;
+    background-size: 1em;
+}
+
+select:hover {
+    border-color: #ff4d4d;
+}
+
+select:focus {
+    outline: none;
+    border-color: #ff0000;
+    box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.1);
+}
+
+select option:disabled {
+    color: #999;
+    background-color: #f5f5f5;
+}
+
+.back-to-settings-btn {
+    position: fixed;
+    top: -50px;
+    left: 20px;
+    padding: 12px 25px;
+    background: linear-gradient(45deg, #ff4d4d, #ff0000);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(255, 0, 0, 0.3);
+    z-index: 3;
+}
+
+.back-to-settings-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+    background: linear-gradient(45deg, #ff0000, #ff6b6b);
+}
+
+/* Điều chỉnh vị trí cho mobile */
+@media (max-width: 768px) {
+    .back-to-settings-btn {
+        top: 10px;
+        left: 10px;
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
