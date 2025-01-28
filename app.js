@@ -264,11 +264,29 @@ function createFirework(x, y, type = 'normal') {
     }
 }
 
-// Cập nhật hàm animation với vị trí bắn pháo hoa đa dạng hơn
+// Cập nhật hàm animate
 function animate() {
     requestAnimationFrame(animate);
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Tăng độ mờ của trail
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Giảm tần suất tạo pháo hoa tự động
+    if (Math.random() < 0.02) { // Giảm từ 0.03 xuống 0.02
+        const x = Math.random() * canvas.width;
+        const y = canvas.height;
+        createFirework(x, y);
+    }
+
+    // Thêm pháo hoa ở các góc màn hình với tần suất thấp hơn
+    if (Math.random() < 0.01) { // Giảm từ 0.03 xuống 0.01
+        const positions = [
+            { x: canvas.width * 0.2, y: canvas.height * 0.3 },
+            { x: canvas.width * 0.8, y: canvas.height * 0.3 },
+            { x: canvas.width * 0.5, y: canvas.height * 0.2 }
+        ];
+        const pos = positions[Math.floor(Math.random() * positions.length)];
+        createFirework(pos.x, pos.y, Math.random() < 0.5 ? 'normal' : 'shape');
+    }
 
     // Cập nhật các particle
     particles = particles.filter(particle => particle.alpha > 0);
@@ -300,39 +318,28 @@ function animate() {
         const y = canvas.height * (0.2 + Math.random() * 0.3); // Bắn ở 20-50% chiều cao màn hình
         createFirework(x, y, 'shape');
     }
-
-    // Thêm pháo hoa ở các góc màn hình
-    if (Math.random() < 0.01) {
-        const positions = [
-            { x: canvas.width * 0.2, y: canvas.height * 0.3 },
-            { x: canvas.width * 0.8, y: canvas.height * 0.3 },
-            { x: canvas.width * 0.5, y: canvas.height * 0.2 }
-        ];
-        const pos = positions[Math.floor(Math.random() * positions.length)];
-        createFirework(pos.x, pos.y, Math.random() < 0.3 ? 'normal' : 'shape');
-    }
 }
-
-// Cập nhật sự kiện click
-canvas.addEventListener('click', (e) => {
-    for (let i = 0; i < 3; i++) {
-        setTimeout(() => {
-            const randomHeight = e.clientY - Math.random() * 200;
-            createFirework(
-                e.clientX + (Math.random() - 0.5) * 100,
-                randomHeight,
-                Math.random() < 0.4 ? 'normal' : 'shape'
-            );
-        }, i * 150);
-    }
-});
 
 // Cập nhật interval tạo pháo hoa
 setInterval(() => {
     const x = Math.random() * canvas.width;
     const y = canvas.height * (0.3 + Math.random() * 0.4);
     createFirework(x, y, 'shape');
-}, 4000);
+}, 3000); // Tăng từ 2000ms lên 3000ms (3 giây)
+
+// Cập nhật sự kiện click
+canvas.addEventListener('click', (e) => {
+    for (let i = 0; i < 3; i++) { // Giảm số lượng pháo hoa khi click từ 5 xuống 3
+        setTimeout(() => {
+            const randomHeight = e.clientY - Math.random() * 200;
+            createFirework(
+                e.clientX + (Math.random() - 0.5) * 150,
+                randomHeight,
+                Math.random() < 0.6 ? 'normal' : 'shape'
+            );
+        }, i * 100); // Giảm delay giữa các pháo hoa
+    }
+});
 
 // Bắt đầu animation
 animate();
