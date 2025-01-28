@@ -300,29 +300,179 @@ button#generateEnvelopes:hover {
 /* Media Queries cho mobile */
 @media (max-width: 768px) {
     .lucky-money-form {
-        padding: 20px;
+        width: 95%;
+        padding: 15px;
+        margin-top: 20px;
     }
 
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-size: 1em;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    select {
+        padding: 10px;
+        font-size: 1em;
+    }
+
+    button#generateEnvelopes {
+        padding: 12px;
+        font-size: 1.1em;
+    }
+
+    /* Điều chỉnh grid bao lì xì */
     .envelopes-container {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 10px;
+        margin-top: 60px; /* Tạo khoảng cách cho nút back */
     }
 
+    /* Điều chỉnh kích thước bao lì xì */
+    .envelope {
+        width: 90px;
+        height: 135px;
+    }
+
+    /* Điều chỉnh modal */
     .modal-content {
-        padding: 20px;
+        width: 85%;
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    .money-amount img {
+        max-width: 200px;
+    }
+
+    .money-amount p {
+        font-size: 1.2em;
+        margin-top: 10px;
+    }
+
+    /* Điều chỉnh nút back */
+    .back-to-settings-btn {
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 8px 20px;
+        font-size: 0.9em;
+        width: auto;
+        white-space: nowrap;
     }
 }
 
 @media (max-width: 480px) {
     .lucky-money-form {
-        top: 0;
-        transform: translate(-50%, 0);
-        border-radius: 0 0 20px 20px;
+        width: 100%;
+        border-radius: 0 0 15px 15px;
+        padding: 12px;
     }
 
     .envelopes-container {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+    }
+
+    .envelope {
+        width: 80px;
+        height: 120px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+        margin: 10px 0;
+    }
+
+    /* Điều chỉnh modal cho màn hình nhỏ */
+    .modal-content {
+        width: 90%;
+        padding: 12px;
+    }
+
+    .close {
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+    }
+
+    .money-amount img {
+        max-width: 150px;
+    }
+
+    .money-amount p {
+        font-size: 1em;
+    }
+}
+
+/* Thêm media query cho màn hình siêu nhỏ */
+@media (max-width: 320px) {
+    .envelope {
+        width: 70px;
+        height: 105px;
+    }
+
+    .form-group label {
+        font-size: 0.9em;
+    }
+
+    .form-group input,
+    select {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    button#generateEnvelopes {
+        padding: 10px;
+        font-size: 1em;
+    }
+}
+
+/* Thêm các styles để cải thiện UX trên mobile */
+@media (hover: none) {
+    /* Loại bỏ hover effect trên thiết bị touch */
+    .envelope:hover {
+        transform: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Thêm active state cho touch */
+    .envelope:active {
+        transform: scale(0.95);
+    }
+
+    .back-to-settings-btn:active {
+        transform: translateY(1px);
+    }
+}
+
+/* Cải thiện khả năng touch */
+@media (pointer: coarse) {
+    .form-group input,
+    select,
+    button,
+    .envelope {
+        min-height: 44px; /* Kích thước tối thiểu cho touch target */
+    }
+
+    /* Tăng khoảng cách giữa các elements để dễ chạm */
+    .form-group {
+        margin-bottom: 20px;
+    }
+}
+
+/* Thêm safe-area-inset cho iPhone */
+@supports (padding: max(0px)) {
+    .lucky-money-form,
+    .modal-content {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-bottom: max(15px, env(safe-area-inset-bottom));
     }
 }
 

@@ -302,38 +302,37 @@ function animate() {
     }
 
     // Thêm pháo hoa ở các góc màn hình
-    if (Math.random() < 0.03) {
+    if (Math.random() < 0.01) {
         const positions = [
             { x: canvas.width * 0.2, y: canvas.height * 0.3 },
             { x: canvas.width * 0.8, y: canvas.height * 0.3 },
             { x: canvas.width * 0.5, y: canvas.height * 0.2 }
         ];
         const pos = positions[Math.floor(Math.random() * positions.length)];
-        createFirework(pos.x, pos.y, Math.random() < 0.5 ? 'normal' : 'shape');
+        createFirework(pos.x, pos.y, Math.random() < 0.3 ? 'normal' : 'shape');
     }
 }
 
 // Cập nhật sự kiện click
 canvas.addEventListener('click', (e) => {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
         setTimeout(() => {
-            // Tạo pháo hoa với độ cao ngẫu nhiên khi click
-            const randomHeight = e.clientY - Math.random() * 200; // Bay cao hơn vị trí click
+            const randomHeight = e.clientY - Math.random() * 200;
             createFirework(
-                e.clientX + (Math.random() - 0.5) * 150,
+                e.clientX + (Math.random() - 0.5) * 100,
                 randomHeight,
-                Math.random() < 0.6 ? 'normal' : 'shape'
+                Math.random() < 0.4 ? 'normal' : 'shape'
             );
-        }, i * 80);
+        }, i * 150);
     }
 });
 
 // Cập nhật interval tạo pháo hoa
 setInterval(() => {
     const x = Math.random() * canvas.width;
-    const y = canvas.height * (0.3 + Math.random() * 0.4); // Bắn ở độ cao 30-70% màn hình
+    const y = canvas.height * (0.3 + Math.random() * 0.4);
     createFirework(x, y, 'shape');
-}, 2000);
+}, 4000);
 
 // Bắt đầu animation
 animate();
